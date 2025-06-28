@@ -1,6 +1,6 @@
 {
   "name": "animbus",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Scrapes anime from Samehadaku with AniList integration",
   "type": "module",
   "main": "./dist/index.cjs",
