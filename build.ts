@@ -6,6 +6,7 @@ const defaultBuildConfig: BuildConfig = {
   outdir: "./dist",
   target: "node",
   minify: true,
+  external: ["cheerio", "fuse.js", "axios"],
 };
 
 await Promise.all([
