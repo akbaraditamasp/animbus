@@ -14,13 +14,13 @@ export type Anime = {
   startDate: Date;
   endDate: Date;
   year: number;
-  episodes: number;
+  episodes: number | null;
   duration: number;
   trailer: {
     thumbnail: string;
     id: string;
     site: string;
-  };
+  } | null;
   coverImage: string;
   bannerImage: string;
   genres: string[];
@@ -28,7 +28,7 @@ export type Anime = {
   studios: string[];
   streamingEpisodes: {
     title: string;
-    thumbnail: string;
+    thumbnail: string | null;
   }[];
 };
 

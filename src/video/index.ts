@@ -121,10 +121,33 @@ export const getAnime = async (id: string) => {
       episodes.push($(episode).attr("href")!);
     }
 
-    return { title, episodes };
+    return { title, episodes: [...episodes.reverse()] };
   });
 
   const detail = await getAnimeID(page.title).then((id) => getAnimeDetail(id));
+  const streamingEpisodes: {
+    title: string;
+    thumbnail: string | null;
+    videoID: string;
+  }[] =
+    detail.streamingEpisodes.length < page.episodes.length
+      ? page.episodes
+          .map((item, index) => ({
+            title: `Episode ${index + 1}`,
+            thumbnail: null,
+            videoID: new URL(item).pathname,
+          }))
+          .reverse()
+      : detail.streamingEpisodes
+          .reverse()
+          .filter((_, index) => page.episodes[index])
+          .map((item, index) => {
+            return {
+              ...item,
+              videoID: new URL(page.episodes[index]!).pathname,
+            };
+          })
+          .reverse();
 
   return {
     ...detail,
@@ -132,14 +155,7 @@ export const getAnime = async (id: string) => {
       detail.streamingEpisodes.length > 1
         ? undefined
         : new URL(page.episodes[0]!).pathname,
-    streamingEpisodes: detail.streamingEpisodes
-      .filter((_, index) => page.episodes[index])
-      .map((item, index) => {
-        return {
-          ...item,
-          videoID: new URL(page.episodes[index]!).pathname,
-        };
-      }),
+    streamingEpisodes,
   };
 };
 
